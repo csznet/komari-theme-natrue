@@ -17,6 +17,7 @@ defineOptions({
 const NodeCard = defineAsyncComponent(() => import('@/components/NodeCard.vue'))
 const NodeGeneralCards = defineAsyncComponent(() => import('@/components/NodeGeneralCards.vue'))
 const NodeList = defineAsyncComponent(() => import('@/components/NodeList.vue'))
+const PingOverview = defineAsyncComponent(() => import('@/components/PingOverview.vue'))
 
 const appStore = useAppStore()
 const nodesStore = useNodesStore()
@@ -195,6 +196,9 @@ const blurClass = computed(() => {
           <NRadioButton value="list" class="view-selector-item">
             <div class="i-icon-park-outline-view-list" />
           </NRadioButton>
+          <NRadioButton value="ping" class="view-selector-item">
+            <div class="i-icon-park-outline-chart-line" />
+          </NRadioButton>
         </NRadioGroup>
       </div>
       <div class="nodes">
@@ -206,6 +210,8 @@ const blurClass = computed(() => {
             </div>
             <!-- List 视图 -->
             <NodeList v-else-if="nodeList.length !== 0 && appStore.nodeViewMode === 'list'" :nodes="nodeList" @click="handleNodeClick" />
+            <!-- Ping 延迟视图 -->
+            <PingOverview v-else-if="nodeList.length !== 0 && appStore.nodeViewMode === 'ping'" :nodes="nodeList" />
             <!-- 空状态 -->
             <div v-else class="text-gray-500 text-center">
               <NEmpty description="暂无节点" />
@@ -220,6 +226,8 @@ const blurClass = computed(() => {
           </div>
           <!-- List 视图 -->
           <NodeList v-else-if="nodeList.length !== 0 && appStore.nodeViewMode === 'list'" :nodes="nodeList" @click="handleNodeClick" />
+          <!-- Ping 延迟视图 -->
+          <PingOverview v-else-if="nodeList.length !== 0 && appStore.nodeViewMode === 'ping'" :nodes="nodeList" />
           <!-- 空状态 -->
           <div v-else class="text-gray-500 text-center">
             <NEmpty description="暂无节点" />
